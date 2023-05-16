@@ -29,16 +29,27 @@ class DocumentController extends Controller
                 'options' => $options
             ]);
     }
+    public function file_down(Request $request, $id)
+    {
+        $doc = Document::findOrFail($id);
+        $path = storage_path($doc->file);
+       return response()->download($path);
+    }
 
     public function file(Request $request, $id)
     {
         $modifiedDocxFile = 'public/document/' . time() . '.docx';
+        $document = new Document();
+        $document->name = $request->doc_name;
+        $document->template_id = $id;
+        $document->user_id = auth()->id();
+        $document->save();
         $file_name='storage/document/qrcode/'.time().'.png';
         $writer = new PngWriter();
-        $qrCode = QrCode::create(asset($modifiedDocxFile))
+        $qrCode = QrCode::create('welse.uz/file?id=' . $document->id)
             ->setEncoding(new Encoding('UTF-8'))
             ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
-            ->setSize(300)
+            ->setSize(400)
             ->setMargin(10)
             ->setRoundBlockSizeMode(new RoundBlockSizeModeMargin())
             ->setForegroundColor(new Color(0, 0, 0))
@@ -56,10 +67,6 @@ class DocumentController extends Controller
         $templateProcessor->setImageValue('qrcode', $file_name);
         $templateProcessor->setValues($data);
         $templateProcessor->saveAs(storage_path('app/' . $modifiedDocxFile));
-        $document = new Document();
-        $document->name = $request->doc_name;
-        $document->template_id = $id;
-        $document->user_id = auth()->id();
         $document->file = substr_replace($modifiedDocxFile, 'storage', 0, 6);
         $document->save();
         return redirect()->back();
