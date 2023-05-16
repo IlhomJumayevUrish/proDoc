@@ -29,11 +29,11 @@ class DocumentController extends Controller
                 'options' => $options
             ]);
     }
+
     public function file_down(Request $request, $id)
     {
         $doc = Document::findOrFail($id);
-        $path = storage_path($doc->file);
-       return response()->download($path);
+        return response()->download(asset($doc->file));
     }
 
     public function file(Request $request, $id)
@@ -44,7 +44,7 @@ class DocumentController extends Controller
         $document->template_id = $id;
         $document->user_id = auth()->id();
         $document->save();
-        $file_name='storage/document/qrcode/'.time().'.png';
+        $file_name = 'storage/document/qrcode/' . time() . '.png';
         $writer = new PngWriter();
         $qrCode = QrCode::create('welse.uz/file?id=' . $document->id)
             ->setEncoding(new Encoding('UTF-8'))
