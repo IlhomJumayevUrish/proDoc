@@ -33,6 +33,7 @@ class DocumentController extends Controller
     public function file_down(Request $request, $id)
     {
         $doc = Document::findOrFail($id);
+        return $doc;
         return response()->download($doc->file);
     }
 
