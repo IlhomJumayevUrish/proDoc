@@ -32,9 +32,10 @@ class DocumentController extends Controller
 
     public function file(Request $request, $id)
     {
+        $modifiedDocxFile = 'public/document/' . time() . '.docx';
         $file_name='storage/document/qrcode/'.time().'.png';
         $writer = new PngWriter();
-        $qrCode = QrCode::create('https://www.youtube.com/watch?v=kWoW2wMKJA4&list=RDMMkWoW2wMKJA4&start_radio=1')
+        $qrCode = QrCode::create(asset($modifiedDocxFile))
             ->setEncoding(new Encoding('UTF-8'))
             ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
             ->setSize(300)
@@ -51,7 +52,6 @@ class DocumentController extends Controller
         Arr::forget($data, 'qrcode');
         $original = Template::findOrFail($id);
         $newString = substr_replace($original->file, 'app/public/template/', 0, 18);
-        $modifiedDocxFile = 'public/document/' . time() . '.docx';
         $templateProcessor = new TemplateProcessor(storage_path($newString));
         $templateProcessor->setImageValue('qrcode', $file_name);
         $templateProcessor->setValues($data);
