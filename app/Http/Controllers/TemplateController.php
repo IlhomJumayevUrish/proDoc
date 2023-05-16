@@ -41,10 +41,8 @@ class TemplateController extends Controller
                 'template_id' => $id,
             ]);
         }
-        $templates = Template::orderBy('id','desc')->get();
-        return view('dashboard.pages.template', ['templates' => $templates]);
+        return redirect()->back();
     }
-
     public function create(TemplateRequest $request)
     {
         $template = new Template();
