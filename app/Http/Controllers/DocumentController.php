@@ -52,8 +52,8 @@ class DocumentController extends Controller
         $newString = substr_replace($original->file, 'app\public\template\\', 0, 18);
         $modifiedDocxFile = 'public/document/' . time() . '.docx';
         $templateProcessor = new TemplateProcessor(storage_path($newString));
-        $templateProcessor->setValues($data);
         $templateProcessor->setImageValue('image', $file_name);
+        $templateProcessor->setValues($data);
         $templateProcessor->saveAs(storage_path('app/' . $modifiedDocxFile));
         $document = new Document();
         $document->name = $request->doc_name;
