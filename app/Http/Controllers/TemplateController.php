@@ -53,7 +53,7 @@ class TemplateController extends Controller
         $template->file = uploadFile($request->file('file'), "template");
         $template->user_id = auth()->id();
         $template->save();
-        $newString = substr_replace($template->file, 'app\public\template\\', 0,18);
+        $newString = substr_replace($template->file, 'app/public/template/', 0,18);
         $templateProcessor = new TemplateProcessor(storage_path($newString));
         return view('dashboard.pages.temp', ['template' => $template,'keys'=>$templateProcessor->getVariables()]);
     }

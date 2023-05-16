@@ -48,11 +48,12 @@ class DocumentController extends Controller
         $data = array_combine(array_keys($data), array_values($data));
         Arr::forget($data, '_token');
         Arr::forget($data, 'doc_name');
+        Arr::forget($data, 'qrcode');
         $original = Template::findOrFail($id);
-        $newString = substr_replace($original->file, 'app\public\template\\', 0, 18);
+        $newString = substr_replace($original->file, 'app/public/template/', 0, 18);
         $modifiedDocxFile = 'public/document/' . time() . '.docx';
         $templateProcessor = new TemplateProcessor(storage_path($newString));
-        $templateProcessor->setImageValue('image', $file_name);
+        $templateProcessor->setImageValue('qrcode', $file_name);
         $templateProcessor->setValues($data);
         $templateProcessor->saveAs(storage_path('app/' . $modifiedDocxFile));
         $document = new Document();

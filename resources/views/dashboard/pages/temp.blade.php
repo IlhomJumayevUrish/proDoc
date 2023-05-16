@@ -29,42 +29,44 @@
                 @foreach($keys as $key)
                     @if ($loop->index==0)
                         <div class="row w-100 pl-4">
-                            <div class="col-6">
+                            <div class="col-12">
                                 <div class="mb-3">
                                     <label class="form-label">Label</label>
                                     <input class="form-control" name="label[]" value="{{$key}}" type="text"/>
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div class="mb-3 mr-3">
+                                <div class="mb-3 mr-3" style="display: none">
                                     <label class="form-label">Key</label>
                                     <input class="form-control" name="key[]" type="text" value="{{$key}}"/>
                                 </div>
                             </div>
                         </div>
                     @else
-                        <div class="row w-100 pl-4" id="content_{{$loop->index}}">
-                            <div class="col-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Label</label>
-                                    <input class="form-control" name="label[]" value="{{$key}}" type="text"/>
+                        @if ($key!="qrcode")
+                            <div class="row w-100 pl-4" id="content_{{$loop->index}}">
+                                <div class="col-11">
+                                    <div class="mb-3">
+                                        <label class="form-label">Label</label>
+                                        <input class="form-control" name="label[]" value="{{$key}}" type="text"/>
+                                    </div>
+                                </div>
+                                <div class="col-5" style="display: none">
+                                    <div class="mb-3 mr-3">
+                                        <label class="form-label">Key</label>
+                                        <input class="form-control" name="key[]" type="text" value="{{$key}}"/>
+                                    </div>
+                                </div>
+                                <div class="col-1">
+                                    <div class="mt-4">
+                                        <a href="#" onclick="handleHide({{$loop->index}})"
+                                           class="btn btn-danger btn-icon btn-circle btn-lg">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-5">
-                                <div class="mb-3 mr-3">
-                                    <label class="form-label">Key</label>
-                                    <input class="form-control" name="key[]" type="text" value="{{$key}}"/>
-                                </div>
-                            </div>
-                            <div class="col-1">
-                                <div class="mt-4">
-                                    <a href="#" onclick="handleHide({{$loop->index}})"
-                                       class="btn btn-danger btn-icon btn-circle btn-lg">
-                                        <i class="fa fa-times"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                        @endif
                     @endif
 
                 @endforeach
