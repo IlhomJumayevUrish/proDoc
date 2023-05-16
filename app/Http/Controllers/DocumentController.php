@@ -43,6 +43,7 @@ class DocumentController extends Controller
         $document->name = $request->doc_name;
         $document->template_id = $id;
         $document->user_id = auth()->id();
+        $document->file = substr_replace($modifiedDocxFile, 'storage', 0, 6);
         $document->save();
         $file_name = 'storage/document/qrcode/' . time() . '.png';
         $writer = new PngWriter();
