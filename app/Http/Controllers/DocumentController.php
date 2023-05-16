@@ -47,7 +47,7 @@ class DocumentController extends Controller
         $document->save();
         $file_name = 'storage/document/qrcode/' . time() . '.png';
         $writer = new PngWriter();
-        $qrCode = QrCode::create('welse.uz/file?id=' . $document->id)
+        $qrCode = QrCode::create('welse.uz/file/' . $document->id)
             ->setEncoding(new Encoding('UTF-8'))
             ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
             ->setSize(400)
